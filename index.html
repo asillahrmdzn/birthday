@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Birthday Invite</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Courier+Prime&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Courier Prime', monospace;
+  background: repeating-linear-gradient(
+    90deg,
+    #0b1a5a,
+    #0b1a5a 20px,
+    #132a88 20px,
+    #132a88 40px
+  );
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Floating particles background */
+.particle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* CARD */
+.card {
+  width: 90%;
+  max-width: 420px;
+  background: #fff6e6;
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  position: relative;
+  border: 6px dotted #1f2a6b;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  z-index: 100;
+}
+
+/* TITLE */
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  color: #3b1f1f;
+  margin-bottom: 10px;
+  text-transform: lowercase;
+}
+
+/* IMAGE PLACEHOLDER */
+.cake {
+  font-size: 90px;
+  margin: 10px 0;
+}
+
+.photo-page1 {
+  margin: 15px 0;
+  display: inline-block;
+  max-width: 120px;
+  vertical-align: middle;
+}
+
+.photo-page1 img {
+  max-width: 120px;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+}
+
+/* BUTTONS */
+.btn {
+  padding: 10px 18px;
+  margin: 10px;
+  border-radius: 10px;
+  border: 2px solid #1f2a6b;
+  background: #e8ecff;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
+
+#noBtn {
+  position: relative;
+}
+
+/* PAGE 2 */
+.hidden {
+  display: none;
+}
+
+.paper {
+  background: #fff6e6;
+  border: 6px dotted #1f2a6b;
+  padding: 25px;
+  border-radius: 20px;
+  text-align: center;
+  position: relative;
+}
+
+/* MUSIC TOGGLE */
+.music-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #1f2a6b;
+  border: 3px solid #fff6e6;
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.music-toggle:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+}
+
+.music-toggle.playing {
+  animation: pulse 1s infinite;
+  box-shadow: 0 0 20px rgba(255, 102, 178, 0.6), 0 4px 12px rgba(0,0,0,0.3);
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* PAPER FOLD EFFECT */
+.page2-container {
+  perspective: 1200px;
+  position: relative;
+  z-index: 10;
+}
+
+.paper {
+  animation: paperFoldOpen 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform-style: preserve-3d;
+  box-shadow: 
+    0 20px 60px rgba(0,0,0,0.4),
+    inset -2px 0 10px rgba(0,0,0,0.1);
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes paperFoldOpen {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.3) rotateX(90deg);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1) rotateX(0deg);
+  }
+}
+
+/* Card breathing animation after open */
+.paper.opened {
+  animation: breathe 4s ease-in-out 1.2s infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-3px); }
+}
+
+/* FRIEND'S PICTURE - Page 1 */
+.photo-page1 {
+  margin: 15px 0;
+  display: inline-block;
+  max-width: 80px;
+  vertical-align: middle;
+}
+
+.photo-page1 img {
+  max-width: 80px;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  border: 3px solid #1f2a6b;
+}
+
+/* POLAROID FRAME - Page 2 */
+.picture-frame {
+  margin: 20px auto 10px;
+  display: inline-block;
+  background: #fff;
+  padding: 8px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  transform: rotate(-3deg);
+  position: relative;
+  animation: floatPhoto 3s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.picture-frame img {
+  max-width: 120px;
+  height: auto;
+  display: block;
+  background: #fff;
+}
+
+@keyframes floatPhoto {
+  0%, 100% { transform: rotate(-3deg) translateY(0px); }
+  50% { transform: rotate(-3deg) translateY(-8px); }
+}
+
+/* Details Box - Torn Paper Style */
+.details-box {
+  background: #fffbf0;
+  border: 2px dashed #1f2a6b;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+  position: relative;
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.05);
+  animation: detailsFadeIn 0.8s ease-out 0.8s both;
+}
+
+@keyframes detailsFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.detail-item {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #3b1f1f;
+  animation: slideIn 0.6s ease-out both;
+}
+
+.detail-item:nth-child(1) { animation-delay: 1.0s; }
+.detail-item:nth-child(2) { animation-delay: 1.15s; }
+.detail-item:nth-child(3) { animation-delay: 1.3s; }
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Paper texture overlay */
+.paper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.02) 0px,
+      rgba(0,0,0,0.02) 1px,
+      transparent 1px,
+      transparent 2px
+    );
+  pointer-events: none;
+  border-radius: 20px;
+  z-index: 0;
+}
+
+/* simple sparkle */
+.sparkle {
+  position: absolute;
+  font-size: 18px;
+  animation: float 3s infinite ease-in-out;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(-10px); opacity: 0.6; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Text fade animations */
+@keyframes fadeInText {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Button bounce animation */
+@keyframes buttonBounce {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC TOGGLE -->
+<button class="music-toggle" id="musicToggle" onclick="toggleMusic()">🎵</button>
+<audio id="bgMusic" loop autoplay>
+  <source src="birthday-music.mp3" type="audio/mpeg">
+</audio>
+
+<!-- PAGE 1 -->
+<div class="card" id="page1">
+  <h1>happy birthday danial haiqal !!</h1>
+  <div style="display: flex; justify-content: center; align-items: center;">
+    <div class="cake">🎂</div>
+  </div>
+
+  <p><b>YOU ARE INVITED FOR A BIRTHDAY DINNER!</b></p>
+
+  <p>Wanna have a dinner with me?</p>
+
+  <button class="btn" onclick="nextPage()">IM IN!</button>
+  <button class="btn" id="noBtn">DONT WANT</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="card hidden page2-container" id="page2">
+  <div class="paper">
+    <h2>I KNEW YOU WANTED TO HAVE DINNER WITH ME!</h2>
+    <p style="font-size: 14px; color: #666; animation: fadeInText 0.8s ease-out 0.5s both;">below are the details ✨</p>
+
+    <p style="font-size: 16px; margin-top: 10px; font-weight: bold; color: #3b1f1f; animation: fadeInText 0.8s ease-out 0.7s both;">Birthday boy</p>
+
+    <!-- PICTURE SPACE -->
+    <div class="picture-frame">
+      <img src="fade.png" alt="Birthday Friend">
+    </div>
+
+    <!-- DETAILS BOX -->
+    <div class="details-box">
+      <div class="detail-item"><strong>📅 Tentative</strong><br>21 May - your birthday!</div>
+      <div class="detail-item"><strong>📍 Venue</strong><br>supriseee</div>
+      <div class="detail-item"><strong>⏰ Time</strong><br>I will pick you at 8:00 PM!</div>
+      <div class="detail-item"><strong>👗 Dress Attire</strong><br>Black and Classy</div>
+    </div>
+
+    <button class="btn" onclick="love()" style="animation: buttonBounce 0.8s ease-out 1.8s both;">Can't wait to see you ❤️</button>
+  </div>
+</div>
+
+<script>
+// MUSIC TOGGLE
+let isPlaying = false;
+const musicToggle = document.getElementById("musicToggle");
+const bgMusic = document.getElementById("bgMusic");
+
+function setMusicState(on) {
+  isPlaying = on;
+  if (isPlaying) {
+    bgMusic.play().catch(err => console.log("Audio play error:", err));
+    musicToggle.classList.add("playing");
+    musicToggle.textContent = "🎵";
+  } else {
+    bgMusic.pause();
+    musicToggle.classList.remove("playing");
+    musicToggle.textContent = "🎵";
+  }
+}
+
+function toggleMusic() {
+  setMusicState(!isPlaying);
+}
+
+// START MUSIC ON PAGE LOAD
+window.addEventListener('load', () => {
+  setMusicState(true);
+});
+
+// PAGE SWITCH
+function nextPage() {
+  document.getElementById("page1").classList.add("hidden");
+  document.getElementById("page2").classList.remove("hidden");
+  
+  // Trigger breathing animation after fold completes
+  setTimeout(() => {
+    document.querySelector(".paper").classList.add("opened");
+  }, 1200);
+  
+  // Create floating particles
+  createFloatingParticles();
+}
+
+// FLOATING PARTICLES
+function createFloatingParticles() {
+  const particleCount = 12;
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement("div");
+    particle.className = "particle";
+    particle.innerHTML = ["✨", "💫", "⭐", "🌟"][Math.floor(Math.random() * 4)];
+    particle.style.left = Math.random() * window.innerWidth + "px";
+    particle.style.top = Math.random() * window.innerHeight + "px";
+    particle.style.fontSize = (Math.random() * 20 + 12) + "px";
+    particle.style.opacity = Math.random() * 0.5 + 0.3;
+    particle.style.animation = `floatParticle ${Math.random() * 8 + 4}s ease-in-out infinite`;
+    particle.style.animationDelay = Math.random() * 2 + "s";
+    document.body.appendChild(particle);
+  }
+}
+
+// Add particle float animation to styles dynamically
+const particleStyle = document.createElement('style');
+particleStyle.innerHTML = `
+  @keyframes floatParticle {
+    0%, 100% {
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 0.3;
+    }
+    25% {
+      transform: translate(30px, -40px) rotate(90deg);
+      opacity: 0.6;
+    }
+    50% {
+      transform: translate(-20px, -80px) rotate(180deg);
+      opacity: 0.3;
+    }
+    75% {
+      transform: translate(50px, -40px) rotate(270deg);
+      opacity: 0.5;
+    }
+  }
+`;
+document.head.appendChild(particleStyle);
+
+// RUNNING NO BUTTON
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("mouseover", () => {
+  const x = Math.random() * 200 - 100;
+  const y = Math.random() * 200 - 100;
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+});
+
+// HEART CONFETTI
+function love() {
+  // Add glow pulse to page
+  const card = document.querySelector(".card:not(.hidden)");
+  if (card) {
+    card.style.boxShadow = "0 10px 40px rgba(0,0,0,0.3), 0 0 40px rgba(255, 102, 178, 0.4)";
+    setTimeout(() => {
+      card.style.boxShadow = "0 10px 40px rgba(0,0,0,0.3)";
+    }, 600);
+  }
+  
+  for (let i = 0; i < 40; i++) {
+    let heart = document.createElement("div");
+    heart.innerHTML = "❤️";
+    heart.style.position = "fixed";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.top = "-20px";
+    heart.style.fontSize = (Math.random() * 15 + 16) + "px";
+    heart.style.animation = `fall ${Math.random() * 2 + 2.5}s linear forwards`;
+    heart.style.zIndex = "999";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 3500);
+  }
+}
+
+// falling animation
+const style = document.createElement('style');
+style.innerHTML = `
+@keyframes fall {
+  to {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}`;
+document.head.appendChild(style);
+</script>
+
+</body>
+</html>
